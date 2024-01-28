@@ -136,77 +136,7 @@ export class Store {
           }, editorElement.timeFrame.end - animation.duration);
           break
         }
-        case "slideIn": {
-          const direction = animation.properties.direction;
-          const targetPosition = {
-            left: editorElement.placement.x,
-            top: editorElement.placement.y,
-          }
-          const startPosition = {
-            left: (direction === "left" ? - editorElement.placement.width : direction === "right" ? this.canvas?.width : editorElement.placement.x),
-            top: (direction === "top" ? - editorElement.placement.height : direction === "bottom" ? this.canvas?.height : editorElement.placement.y),
-          }
-          if (animation.properties.useClipPath) {
-            const clipRectangle = FabricUitls.getClipMaskRect(editorElement, 50);
-            fabricObject.set('clipPath', clipRectangle)
-          }
-          if(editorElement.type === "text" && animation.properties.textType === "character"){
-            this.canvas?.remove(...editorElement.properties.splittedTexts)
-            editorElement.properties.splittedTexts = getTextObjectsPartitionedByCharacters(editorElement.fabricObject,editorElement);
-              editorElement.properties.splittedTexts.forEach((textObject) => {
-              this.canvas!.add(textObject);
-            })
-            const duration = animation.duration/2;
-            const delay = duration/editorElement.properties.splittedTexts.length;
-            for(let i = 0; i < editorElement.properties.splittedTexts.length; i++){
-              const splittedText = editorElement.properties.splittedTexts[i];
-              const offset =  {
-                left: splittedText.left! - editorElement.placement.x,
-                 top: splittedText.top! - editorElement.placement.y
-              }
-              this.animationTimeLine.add({
-                left: [startPosition.left!+offset.left, targetPosition.left+offset.left],
-                top: [startPosition.top!+offset.top, targetPosition.top+offset.top],
-                delay: i*delay,
-                duration: duration,
-                targets: splittedText,
-              }, editorElement.timeFrame.start); 
-            }
-            this.animationTimeLine.add({
-              opacity: [1, 0],
-              duration: 1,
-              targets: fabricObject,
-              easing: 'linear',
-            }, editorElement.timeFrame.start);
-            this.animationTimeLine.add({
-              opacity: [0, 1],
-              duration: 1,
-              targets: fabricObject,
-              easing: 'linear',
-            }, editorElement.timeFrame.start+animation.duration);
-
-            this.animationTimeLine.add({
-              opacity: [0, 1],
-              duration: 1,
-              targets: editorElement.properties.splittedTexts,
-              easing: 'linear',
-            }, editorElement.timeFrame.start);
-            this.animationTimeLine.add({
-              opacity: [1, 0],
-              duration: 1,
-              targets: editorElement.properties.splittedTexts,
-              easing: 'linear',
-            }, editorElement.timeFrame.start+animation.duration);
-          }
-          this.animationTimeLine.add({
-            left: [startPosition.left, targetPosition.left],
-            top: [startPosition.top, targetPosition.top],
-            duration: animation.duration,
-            targets: fabricObject,
-            easing: 'linear',
-          }, editorElement.timeFrame.start);
-          break
-        }
+        
         case "slideOut": {
           const direction = animation.properties.direction;
           const startPosition = {

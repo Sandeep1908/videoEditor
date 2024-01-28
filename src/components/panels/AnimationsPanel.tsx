@@ -18,9 +18,7 @@ export const AnimationsPanel = observer(() => {
     return animation.type === "fadeOut";
   });
 
-  const hasSlideInAnimation = selectedElementAnimations.some((animation) => {
-    return animation.type === "slideIn";
-  });
+
   const hasSlideOutAnimation = selectedElementAnimations.some((animation) => {
     return animation.type === "slideOut";
   });
