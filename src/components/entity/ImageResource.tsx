@@ -3,17 +3,32 @@ import React from "react";
 import { StoreContext } from "@/store";
 import { observer } from "mobx-react";
 import { MdAdd } from "react-icons/md";
-
+import TimeSpanModel from "../shared/TimeSpanModel";
+import { timeStamp } from "console";
 type ImageResourceProps = {
   image: string;
   index: number;
+ 
 };
 export const ImageResource = observer(
   ({ image, index }: ImageResourceProps) => {
     const store = React.useContext(StoreContext);
     const ref = React.useRef<HTMLImageElement>(null);
     const [resolution, setResolution] = React.useState({ w: 0, h: 0 });
+    const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
+    const [timestamp, setTimestamp] = React.useState<string>('');
+    const openModal = () => {
+    
+      setIsModalOpen(prev=>!prev);
+      
+      
+    };
+  
+    const closeModal = () => {
+      setIsModalOpen(prev=>!prev);
+    };
 
+   
     return (
       <div className="rounded-lg overflow-hidden items-center bg-slate-800 m-[15px] flex flex-col relative">
         <div className="bg-[rgba(0,0,0,.25)] text-white py-1 absolute text-base top-2 right-2">
@@ -21,7 +36,7 @@ export const ImageResource = observer(
         </div>
         <button
           className="hover:bg-[#00a0f5] bg-[rgba(0,0,0,.25)] rounded z-10 text-white font-bold py-1 absolute text-lg bottom-2 right-2"
-          onClick={() => store.addImage(index)}
+          onClick={() => openModal()}
         >
           <MdAdd size="25" />
         </button>
@@ -39,6 +54,17 @@ export const ImageResource = observer(
           width={200}
           id={`image-${index}`}
         ></img>
+
+      <TimeSpanModel isOpen={isModalOpen} onClose={closeModal} timestamp={timestamp} index={index}  >
+      <input
+                  type="text"
+                  placeholder="Enter timestamp (mm:ss:ms)"
+                  onChange={(e)=>setTimestamp(e.target.value)}
+                  className=" w-full p-4 border-slate-200 placeholder-slate-400 contrast-more:border-slate-400 contrast-more:placeholder-slate-500"
+                />
+        
+ 
+      </TimeSpanModel>
       </div>
     );
   }
