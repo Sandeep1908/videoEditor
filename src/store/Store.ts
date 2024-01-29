@@ -25,6 +25,7 @@ export class Store {
 
   currentKeyFrame: number;
   fps: number;
+  timespan:number;
 
   constructor() {
     this.canvas = null;
@@ -33,7 +34,7 @@ export class Store {
     this.audios = [];
     this.editorElements = [];
     this.backgroundColor = '#111111';
-    this.maxTime = 30 * 1000;
+    this.maxTime = 60 * 1000;
     this.playing = false;
     this.currentKeyFrame = 0;
     this.selectedElement = null;
@@ -41,7 +42,16 @@ export class Store {
     this.animations = [];
     this.animationTimeLine = anime.timeline();
     this.selectedMenuOption = 'Video';
+    this.timespan=0
     makeAutoObservable(this);
+  }
+
+  setTimeSpan(time:number){
+    this.timespan=time
+  }
+
+  get getTimeSpan(){
+    return this.timespan
   }
 
   get currentTimeInMs() {
@@ -152,9 +162,9 @@ export class Store {
           }
           if(editorElement.type === "text" && animation.properties.textType === "character"){
             this.canvas?.remove(...editorElement.properties.splittedTexts)
-            if(editorElement?.fabricObject?.type==='Text'){
-              editorElement.properties.splittedTexts = getTextObjectsPartitionedByCharacters(editorElement?. ,editorElement);
-            }
+             
+              editorElement.properties.splittedTexts = getTextObjectsPartitionedByCharacters(editorElement?.fabricObject ,editorElement);
+         
               editorElement.properties.splittedTexts.forEach((textObject) => {
               this.canvas!.add(textObject);
             })
@@ -444,6 +454,8 @@ export class Store {
     }
     const aspectRatio = imageElement.naturalWidth / imageElement.naturalHeight;
     const id = getUid();
+    console.log("timespan",this.timespan)
+   
     this.addEditorElement(
       {
         id,
@@ -459,7 +471,7 @@ export class Store {
           scaleY: 1,
         },
         timeFrame: {
-          start: 0,
+          start: this.timespan,
           end: this.maxTime,
         },
         properties: {
