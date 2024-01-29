@@ -9,6 +9,6 @@ function EditorPage() {
   );
 }
 
-EditorPage.diplsayName = "EditorPage";
+ 
 
 export default EditorPage;

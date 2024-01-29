@@ -64,26 +64,7 @@ export const AnimationsPanel = observer(() => {
           Add Fade Out
         </div>
       ) : null}
-      {selectedElement && !hasSlideInAnimation ? (
-        <div
-          className="text-sm px-[16px] py-[8px] font-semibold hover:bg-slate-700 hover:text-white cursor-pointer"
-          onClick={() => {
-            store.addAnimation({
-              id: getUid(),
-              type: "slideIn",
-              targetId: selectedElement?.id ?? "",
-              duration: 1000,
-              properties: {
-                direction: "left",
-                useClipPath: false,
-                textType: "none",
-              },
-            });
-          }}
-        >
-          Add Slide In
-        </div>
-      ) : null}
+      
       {selectedElement && !hasSlideOutAnimation ? (
         <div
           className="text-sm px-[16px] py-[8px] font-semibold hover:bg-slate-700 hover:text-white cursor-pointer"
